@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block page_header %}
+<div class="container-fluid">
+  <h1><small>Greetings List</small></h1>
+</div>
+{% endblock %}
+{% block content %}
+<script>
+  jQuery(function() {
+    jQuery( "#id_start_date" ).datepicker({dateFormat: "dd/mm/yy",});
+  });
+  </script>
+<div class="well well-lg"><a class="clr-black" href="{% url 'add_greetings' %}"><span class="glyphicon glyphicon-pencil">&nbsp;&nbsp;</span></a><span class="glyphicon glyphicon-th-large">&nbsp;&nbsp;</span><span class="glyphicon glyphicon-lock"></span></div>
+
+    <div class="container panel panel-default page-header">
+        <section class="panel-body">
+            <table class="table table-striped">
+              <tr><td>Post</td><td>Date</td><td>Time</td><td>Action</td></tr>
+              {% for tweet in tweets %}
+              <tr><td>{{ tweet.post }}</td><td>{{ tweet.start_date }}</td><td>{{ tweet.start_time }}</td><td><a href="{% url 'tweet_delete' tweet.id %}"><span class="glyphicon glyphicon-trash"></span></a></td></tr>
+              {% endfor %}
+            </table>
+            <ul class="pager">
+				{% if page_obj.has_previous %}
+				<li class="previous"><a href="{% url 'tweet_list' %}?page={{ page_obj.previous_page_number }}">&larr; Previous</a></li>
+        		{% endif %}
+			  	{% if page_obj.has_next %}
+				<li class="next"><a href="{% url 'tweet_list' %}?page={{ page_obj.next_page_number }}">Next &rarr;</a></li>
+        		{% endif %}
+			</ul>
+
+        </section>
+    </div>
+
+{% endblock %}
